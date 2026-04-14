@@ -11,18 +11,18 @@ public class Utilidades {
     public static final HashMap<String, Double> semividas = new HashMap<>();
 
     static {
-        // U235: alfa ~4.679 MeV
-        energias.put("U235", 4.679e6 * 1.602e-19);
-        // Pu239: alfa ~5.245 MeV
-        energias.put("Pu239", 5.245e6 * 1.602e-19);
-        // Cs137: beta ~0.512 MeV
+        // Sr90 (Estroncio-90): beta ~0.546 MeV — producto de fisión común
+        energias.put("Sr90", 0.546e6 * 1.602e-19);
+        // Co60 (Cobalto-60): beta + 2 gammas ~2.824 MeV totales
+        energias.put("Co60", 2.824e6 * 1.602e-19);
+        // Cs137 (Cesio-137): beta ~0.512 MeV
         energias.put("Cs137", 0.512e6 * 1.602e-19);
 
-        // U235: 703,800,000 años → segundos
-        semividas.put("U235", 703_800_000.0 * 365.25 * 24 * 3600);
-        // Pu239: 24,110 años → segundos
-        semividas.put("Pu239", 24_110.0 * 365.25 * 24 * 3600);
-        // Cs137: 30.17 años → segundos
+        // Sr90: semivida 28.8 años → segundos
+        semividas.put("Sr90", 28.8 * 365.25 * 24 * 3600);
+        // Co60: semivida 5.27 años → segundos
+        semividas.put("Co60", 5.27 * 365.25 * 24 * 3600);
+        // Cs137: semivida 30.17 años → segundos
         semividas.put("Cs137", 30.17 * 365.25 * 24 * 3600);
     }
 
@@ -47,7 +47,7 @@ public class Utilidades {
      * Método de bisección: encuentra x en [limInf, limSup] tal que f(x) = y.
      * Funciona tanto para funciones crecientes como decrecientes.
      */
-    public static double byeccion(FuncionUnivariable f, double y, double limInf, double limSup) {
+    public static double biseccion(FuncionUnivariable f, double y, double limInf, double limSup) {
         double tolerancia = 1e-6;
         double a = limInf;
         double b = limSup;

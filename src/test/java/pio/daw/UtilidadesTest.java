@@ -11,36 +11,42 @@ public class UtilidadesTest {
 
     @Test
     void energias_contieneLosIsotopos() {
-        assertNotNull(Utilidades.energias.get("U235"));
-        assertNotNull(Utilidades.energias.get("Pu239"));
+        assertNotNull(Utilidades.energias.get("Sr90"));
+        assertNotNull(Utilidades.energias.get("Co60"));
         assertNotNull(Utilidades.energias.get("Cs137"));
     }
 
     @Test
     void energias_valoresPositivos() {
-        assertTrue(Utilidades.energias.get("U235") > 0);
-        assertTrue(Utilidades.energias.get("Pu239") > 0);
+        assertTrue(Utilidades.energias.get("Sr90") > 0);
+        assertTrue(Utilidades.energias.get("Co60") > 0);
         assertTrue(Utilidades.energias.get("Cs137") > 0);
+    }
+
+    @Test
+    void energias_Co60_mayorQueSr90() {
+        // Co60 libera más energía por desintegración que Sr90
+        assertTrue(Utilidades.energias.get("Co60") > Utilidades.energias.get("Sr90"));
     }
 
     // ── semividas ─────────────────────────────────────────────────────────────
 
     @Test
     void semividas_contieneLosIsotopos() {
-        assertNotNull(Utilidades.semividas.get("U235"));
-        assertNotNull(Utilidades.semividas.get("Pu239"));
+        assertNotNull(Utilidades.semividas.get("Sr90"));
+        assertNotNull(Utilidades.semividas.get("Co60"));
         assertNotNull(Utilidades.semividas.get("Cs137"));
     }
 
     @Test
     void semividas_ordenCorrecto() {
-        // U235 (muy largo) > Pu239 > Cs137 (más corto)
-        double u235  = Utilidades.semividas.get("U235");
-        double pu239 = Utilidades.semividas.get("Pu239");
+        // Cs137 (30.17 a) > Sr90 (28.8 a) > Co60 (5.27 a)
         double cs137 = Utilidades.semividas.get("Cs137");
+        double sr90  = Utilidades.semividas.get("Sr90");
+        double co60  = Utilidades.semividas.get("Co60");
 
-        assertTrue(u235 > pu239);
-        assertTrue(pu239 > cs137);
+        assertTrue(cs137 > sr90);
+        assertTrue(sr90 > co60);
     }
 
     // ── integrar ──────────────────────────────────────────────────────────────
@@ -78,21 +84,21 @@ public class UtilidadesTest {
     @Test
     void byeccion_funcionCreciente() {
         // f(x) = x; f(x) = 5 → x = 5
-        double resultado = Utilidades.byeccion(t -> t, 5.0, 0, 10);
+        double resultado = Utilidades.biseccion(t -> t, 5.0, 0, 10);
         assertEquals(5.0, resultado, TOLERANCIA);
     }
 
     @Test
     void byeccion_funcionDecreciente() {
         // f(x) = 10 - x; f(x) = 3 → x = 7
-        double resultado = Utilidades.byeccion(t -> 10 - t, 3.0, 0, 10);
+        double resultado = Utilidades.biseccion(t -> 10 - t, 3.0, 0, 10);
         assertEquals(7.0, resultado, TOLERANCIA);
     }
 
     @Test
     void byeccion_exponencialDecreciente() {
         // f(x) = e^(-x); f(x) = 0.5 → x = ln(2) ≈ 0.6931
-        double resultado = Utilidades.byeccion(t -> Math.exp(-t), 0.5, 0, 10);
+        double resultado = Utilidades.biseccion(t -> Math.exp(-t), 0.5, 0, 10);
         assertEquals(Math.log(2), resultado, TOLERANCIA);
     }
 }
